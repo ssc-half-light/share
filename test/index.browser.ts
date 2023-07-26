@@ -81,7 +81,7 @@ test('share a directory', async t => {
     if (!session.fs) throw new Error('not fs')  // for TS
 
     shareDetails = await session.fs.sharePrivate(
-        [path.appData(APP_INFO)],
+        [path.appData(APP_INFO, path.file('hello.txt'))],
         { shareWith: bobsUsername }
     )
 
