@@ -74,14 +74,22 @@ test('setup bob', async t => {
 
 let shareDetails:ShareDetails
 
-test('share a file', async t => {
-    await wnfs.write(path.appData(APP_INFO, path.file('hello.txt')),
+test('share a directory', async t => {
+    const dirPath = path.appData(APP_INFO, path.directory('test'))
+    await wnfs.mkdir(dirPath)
+
+    await wnfs.write(path.appData(APP_INFO, path.file('test', 'hello.txt')),
         new TextEncoder().encode('hello'))
 
     if (!session.fs) throw new Error('not fs')  // for TS
 
+    // const newPostPath = path.appData(
+    //     APP_INFO,
+    //     path.file(logPath, key + '.json')
+    // )
+
     shareDetails = await session.fs.sharePrivate(
-        [path.appData(APP_INFO, path.file('hello.txt'))],
+        [path.appData(APP_INFO, path.file('test', 'hello.txt'))],
         { shareWith: bobsUsername }
     )
 
@@ -104,6 +112,7 @@ test('accept the shared directory', async t => {
         path.RootBranch.Private,
         'Shared with me',
         shareDetails.sharedBy.username,
+        'test',
         'hello.txt'
     ))
 
