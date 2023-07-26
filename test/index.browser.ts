@@ -83,11 +83,6 @@ test('share a directory', async t => {
 
     if (!session.fs) throw new Error('not fs')  // for TS
 
-    // const newPostPath = path.appData(
-    //     APP_INFO,
-    //     path.file(logPath, key + '.json')
-    // )
-
     shareDetails = await session.fs.sharePrivate(
         [path.appData(APP_INFO, path.file('test', 'hello.txt'))],
         { shareWith: bobsUsername }
@@ -112,7 +107,6 @@ test('accept the shared directory', async t => {
         path.RootBranch.Private,
         'Shared with me',
         shareDetails.sharedBy.username,
-        'test',
         'hello.txt'
     ))
 
