@@ -74,7 +74,7 @@ test('setup bob', async t => {
 
 let shareDetails:ShareDetails
 
-test('share a directory', async t => {
+test('share a file', async t => {
     await wnfs.write(path.appData(APP_INFO, path.file('hello.txt')),
         new TextEncoder().encode('hello'))
 
