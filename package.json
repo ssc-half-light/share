@@ -1,0 +1,54 @@
+{
+    "type": "module",
+    "private": "true",
+    "main": "dist/index.js",
+    "types": "./dist/index.d.ts",
+    "scripts": {
+        "lint": "standardx -v \"./**/*.ts\"",
+        "build-tests:browser": "esbuild test/*.browser.ts --bundle --format=cjs --keep-names > test/test-bundle.js",
+        "test:node": "npm run build-tests && NODE_ENV=test node ./test/index.js | npx tap-arc",
+        "test:browser": "npm run build-tests:browser && cat test/index.html | tape-run --input=html --static=test | tap-arc",
+        "test-ci:browser": "cat test/index.html | tape-run --input=html --static=test | tap-arc",
+        "test": "npm run build && npm run test:node && npm run test:browser",
+        "build-cjs": "esbuild src/*.ts --format=cjs --keep-names --outdir=./dist --out-extension:.js=.cjs",
+        "build-mjs": "esbuild src/*.ts --format=esm --keep-names --outdir=./dist --out-extension:.js=.js",
+        "build": "mkdir -p ./dist && rm -rf ./dist/* && npm run build-cjs && tsc",
+        "build-tests": "esbuild test/*.ts --platform=node --format=esm --outdir=test --keep-names",
+        "preversion": "npm run lint",
+        "postversion": "git push && git push --tags && npm publish",
+        "prepublishOnly": "npm run build"
+    },
+    "dependencies": {
+        "@oddjs/odd": "^0.37.2"
+    },
+    "devDependencies": {
+        "@socketsupply/tapzero": "^0.7.1",
+        "@ssc-hermes/node-components": "^0.1.12",
+        "@typescript-eslint/parser": "^5.55.0",
+        "esbuild": "^0.15.18",
+        "standardx": "^7.0.0",
+        "tap-arc": "^0.3.5",
+        "tape-run": "^10.0.0",
+        "typescript": "^5.0.2"
+    },
+    "exports": {
+        ".": {
+            "import": "./dist/index.js",
+            "require": "./dist/index.cjs"
+        },
+        "./*": {
+            "import": [
+                "./dist/*.js",
+                "./dist/*"
+            ],
+            "require": [
+                "./dist/*.cjs",
+                "./dist/*"
+            ]
+        }
+    },
+    "license": "AGPL-3.0-or-later",
+    "directories": {
+        "test": "test"
+    }
+}
