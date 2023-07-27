@@ -8,4 +8,4 @@ Share files in wnfs
 npm test
 ```
 
-This will create two [odd accounts](https://github.com/oddsdk/ts-odd) in the same process, and check that they can share files.
+This will create two [odd accounts](https://github.com/oddsdk/ts-odd), and check that they can share files via `wnfs`.
